@@ -1,0 +1,152 @@
+from nltk.chat.util import Chat, reflections
+import re
+class user:
+    name = ""
+    age = 0
+    expertise = ""
+    mood = "neutral"
+pairs =[
+    ['(hi|hello|hey)', ["Hey there what is your name?", "Hi there what is your name?", "Hey what is your name?"]],
+    ['my name is (.*)', ["Hello %1 what is your age?"]],
+    [r'i am (\d+) years old', ["Thanks for sharing your age! That helps me explain AI concepts appropriately.", "Great! Knowing you are %1 years old helps me tailor my explanations."]],
+    [r'i am (\d+)', ["Thanks for sharing your age! That helps me explain AI concepts appropriately.", "Great! Knowing you are %1 years old helps me tailor my explanations."]],
+    ['are you human', ["Yes i am","why would i have to confirm this"]],
+    ['(.*)', ["I didn't quite get that.", "I cannot comprehend at this moment in time."]],
+    
+]
+positive = ['happy', 'good', 'excited']
+negative = ['sad', 'bad', 'bored']
+class ChatBot(Chat):
+    
+    def respond(self, statement):
+        name_match = re.search(r'my name is (\w+)', statement.lower())
+        if name_match != None:
+            user.name = name_match.group(1).title()
+        
+        age_match = re.search(r'i am (\d+)', statement.lower())
+        if age_match != None:
+            user.age = int(age_match.group(1))
+        
+        mood_match = re.search(r'i feel (\w+)', statement.lower())
+        if mood_match != None:
+            mood = mood_match.group(1)
+            for i in range(len(positive)):
+                if positive[i] == mood:
+                    user.mood = "positive"
+                    return("i see you feel " + mood + ", im glad you feel " + mood)
+
+            for j in range(len(negative)):
+                if negative[j] == mood_match.group(1):
+                    user.mood = "negative"
+                    return("i see you feel " + mood + ", i hope you feel better soon")
+
+        mood_match2 = re.search(r'i am feeling (\w+)', statement.lower())
+        if mood_match2 != None:
+            mood = mood_match2.group(1)
+            for i in range(len(positive)):
+                if positive[i] == mood_match2.group(1):
+                    user.mood = "positive"
+                    return("i see you are feeling " + mood + ", im glad you feel " + mood)
+            for j in range(len(negative)):
+                if negative[j] == mood_match2.group(1):
+                    user.mood = "negative"
+                    return("i see you feel " + mood + ", i hope you feel better soon")
+                
+        question1 = re.search(r'w(\w+) i(\w) a(\w)', statement.lower())
+        if question1 != None:
+            if 0 <= user.age <= 15:
+                return("AI stands for Artificial Intelligence it is used when machines are used to do tasks that usually require human thinking")
+            elif 15 < user.age <= 45:
+                return("AI(Artificial Intelligence) is when machines try to emulate human thinking by using equations")
+            elif 45 < user.age <= 60:
+                return("AI is when an algorithm is trained often via back propegation to do tasks that often needs a sense of Intelligence")
+            else:
+                return("AI stands for Artificial Intelligence it is used when machines are used to do tasks that usually require human thinking")
+
+        question1b = re.search(r'w(\w+) i(\w) a(\w+) i(\w+)', statement.lower())
+        if question1b != None:
+            if 0 <= user.age <= 15:
+                return("AI stands for Artificial Intelligence it is used when machines are used to do tasks that usually require human thinking")
+            elif 15 < user.age <= 45:
+                return("AI(Artificial Intelligence) is when machines try to emulate human thinking by using equations")
+            elif 45 < user.age <= 60:
+                return("AI is when an algorithm is trained often via back propegation to do tasks that often needs a sense of Intelligence")
+            else:
+                return("AI stands for Artificial Intelligence it is used when machines are used to do tasks that usually require human thinking")
+        
+        question2 = re.search(r'w(\w+) a(\w) t(\w+) m(\w) j(\w+)', statement.lower())
+        if question2 != None:
+            if 0 <= user.age <= 15:
+                return("Some jobs may change but more jobs will be created")
+            elif 15 < user.age <= 45:
+                return("Most jobs would change by being made less tedious and only require humans for more creative tasks and tasks that require more thinking")
+            elif 45 < user.age <= 60:
+                return("Most jobs would be made easier and some may be lost but more jobs will be created")
+            else:
+                return("Some jobs may change but more jobs will be created")
+        
+        question2b = re.search(r'w(\w+) a(\w+) i(\w+) t(\w+) m(\w) j(\w+)', statement.lower())
+        if question2b != None:
+            if 0 <= user.age <= 15:
+                return("Some jobs may change but more jobs will be created")
+            elif 15 < user.age <= 45:
+                return("Most jobs would change by being made less tedious and only require humans for more creative tasks and tasks that require more thinking")
+            elif 45 < user.age <= 60:
+                return("Most jobs would be made easier and some may be lost but more jobs will be created")
+            else:
+                return("Some jobs may change but more jobs will be created")
+        
+        question3 = re.search(r'w(\w+) i(\w) i(\w+) a(\w+)', statement.lower())
+        if question3 != None:
+            if 0 <= user.age <= 15:
+                return("Intelligent agents are programs that solve problems that require a sence of intelligence")
+            elif 15 < user.age <= 45:
+                return("Intelligent agents are AI-powered systems that interact with their environment to analyze data and make decisions based on specific goals")
+            elif 45 < user.age <= 60:
+                return("Intelligent agents are systems that interact with their environment to make decisions based on specific targets")
+            else:
+                return("Intelligent agents are programs that solve problems that require a sence of intelligence")
+        
+        question4 = re.search(r'w(\w+) a(\w) t(\w+) o(\w+) t(\w+) w(\w+)', statement.lower())
+        if question4 != None:
+            if 0 <= user.age <= 15:
+                return("No as AI doesnt have the means to take over the world")
+            elif 15 < user.age <= 45:
+                return("AI cant take over the world as there are safeguards in place to avoid this from happening")
+            elif 45 < user.age <= 60:
+                return("AI cant take over the world as it currently lacks human-level consciousness, emotions, and independent goals")
+            else:
+                return("No as AI doesnt have the means to take over the world")
+        
+        question4b = re.search(r'w(\w+) a(\w+) i(\w+) t(\w+) o(\w+) t(\w+) w(\w+)', statement.lower())
+        if question4b != None:
+            if 0 <= user.age <= 15:
+                return("No as AI doesnt have the means to take over the world")
+            elif 15 < user.age <= 45:
+                return("AI cant take over the world as there are safeguards in place to avoid this from happening")
+            elif 45 < user.age <= 60:
+                return("AI cant take over the world as it currently lacks human-level consciousness, emotions, and independent goals")
+            else:
+                return("No as AI doesnt have the means to take over the world")
+        
+        response = super().respond(statement)
+        return response
+    
+    def converse(self, quit="bye"):
+        print("Hello! I'm your AI information chatbot.")
+        loop = True
+        while loop == True:
+            user_input = input(">").strip()
+            if user_input.lower() == quit:
+                print("Thanks for chatting " + user.name + " goodbye")
+                if user.mood == 'positive':
+                    print("Enjoy the rest of your day!")
+                elif user.mood == 'negative':
+                    print("Hope things get better soon.")
+                loop = False
+                break
+            response = self.respond(user_input)
+            print("> " + response)
+
+chatbot = ChatBot(pairs, reflections)
+chatbot.converse()
